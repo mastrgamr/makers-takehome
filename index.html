@@ -1,0 +1,173 @@
+<html lang="en" >
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Materialize style sheet -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <!-- some bootstrap magic -->
+  <style type="text/css">
+    .label {
+      display: inline;
+      padding: .2em .6em .3em;
+      font-size: 75%;
+      font-weight: bold;
+      line-height: 1;
+      color: #fff;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: baseline;
+      border-radius: .25em;
+    }
+    .label-default {
+      background-color: #777;
+    }
+  </style>
+  
+  <!-- Angular Material requires Angular.js Libraries -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.js"></script>
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+</head>
+<body ng-app="MakersApp">
+  
+  <div id="main" class="container">
+    
+    <!-- facilitate routing -->
+    <div class="row">
+      <div class="col s12">
+        <ul class="tabs">
+          <li class="tab col s6"><a target="_self" href="#factories">Factories</a></li>
+          <li class="tab col s6"><a target="_self" href="#brands">Brands</a></li>
+        </ul>
+      </div>
+    </div>
+        
+    <ng-view></ng-view>
+    
+  </div>
+  
+  <script type="application/javascript">
+    $(document).ready(function () {
+      // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+      $('.modal-trigger').leanModal({
+        dismissible: true, // Modal can be dismissed by clicking outside of the modal
+        opacity: .7, // Opacity of modal background
+        in_duration: 300, // Transition in duration
+        out_duration: 300 // Transition out duration
+      });
+    });
+  </script>
+  
+  <!--application angular  -->
+  <script type="text/javascript">
+    angular.module('MakersApp', ['ngRoute'])
+          .config(function($routeProvider) {
+            $routeProvider
+            .when("/", {
+              templateUrl : "info.html"
+            })
+            .when("/factories", {
+              templateUrl : "factories.html",
+              controller : "factoriesController"
+            })
+            .when("/brands", {
+              templateUrl : "brands.html",
+              controller : "brandsController"
+            });
+          })
+          .controller('factoriesController', function($scope, $http) {
+            
+            $http.get('http://frozen-stream-78898.herokuapp.com/factories')
+              .success(function (data) {
+                $scope.rows = data;
+                //console.log('got em');
+              });
+         
+            //used to gather info for deletion of specific item
+            $scope.confirmPrompt = function confirmDelete(itemId, index) {
+              $scope.itemId = itemId;
+              $scope.itemindex = index;
+              $('#deletemodal').openModal();
+            }
+            
+            $scope.deleteItem = function deleteItem(){
+              $http.delete('http://frozen-stream-78898.herokuapp.com/factories/' + $scope.itemId)
+              .success(function (data) {
+                console.log(data);
+                $scope.rows.splice($scope.itemindex, 1);
+              });
+            }
+            
+            $scope.addPrompt = function addPrompt(){
+              $('#addModal').openModal();
+            }
+            
+            $scope.addItem = function addItem(){
+              var newFactory = {
+                  company_type: "FACTORY",
+                  name: $scope.nameField,
+                  email: $scope.emailField,
+                  phone_number: $scope.phoneField,
+                  city: $scope.cityField,
+                  state: $scope.stateField
+              };
+              
+              $scope.rows.push(newFactory);
+              
+              $http.post('http://frozen-stream-78898.herokuapp.com/factories/', newFactory)
+              .success(function (data) {
+                console.log(data);
+              });
+            }
+          })
+          .controller('brandsController', function($scope, $http) {
+            
+            $http.get('http://frozen-stream-78898.herokuapp.com/brands')
+              .success(function (data) {
+                $scope.rows = data;
+                //console.log('got em');
+              });
+         
+            //used to gather info for deletion of specific item
+            $scope.confirmPrompt = function confirmDelete(itemId, index){
+              $scope.itemId = itemId;
+              $scope.itemindex = index;
+              $('#deletemodal').openModal();
+            }
+            
+            $scope.deleteItem = function deleteItem(){
+              $http.delete('http://frozen-stream-78898.herokuapp.com/brands/' + $scope.itemId)
+              .success(function (data) {
+                console.log(data);
+                $scope.rows.splice($scope.itemindex, 1);
+              });
+            }
+            
+            $scope.addPrompt = function addPrompt(){
+              $('#addModal').openModal();
+            }
+            
+            $scope.addItem = function addItem(){
+              var newBrand = {
+                  company_type: "BRAND",
+                  name: $scope.nameField,
+                  email: $scope.emailField,
+                  phone_number: $scope.phoneField,
+                  city: $scope.cityField,
+                  state: $scope.stateField
+              };
+              
+              $scope.rows.push(newBrand);
+              
+              $http.post('http://frozen-stream-78898.herokuapp.com/brands/', newBrand)
+              .success(function (data) {
+                console.log(data);
+              });
+            }
+          });
+  </script>
+  
+</body>
+</html>

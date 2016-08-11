@@ -1,0 +1,124 @@
+<!-- run a switch on every even row number -->
+    <div ng-repeat="item in rows" ng-switch on="$index % 2" class="row">
+      
+      <div ng-switch-when="0" class="col s6">
+        <div class="card hoverable">
+          <div class="card-image waves-effect waves-block waves-light">
+            <img class="activator" src="https://placehold.it/350x350?text={{rows[$index].company_type}}">
+          </div>
+          <div class="card-content">
+            <span class="card-title activator grey-text text-darken-4">{{ rows[$index].name }}<i class="material-icons right">more_vert</i></span>
+            <span class="md-subhead label label-default">{{ rows[$index].company_type }}</span>
+          </div>
+          <div class="card-reveal">
+            <span class="card-title grey-text text-darken-4">{{ rows[$index].name }}<i class="material-icons right">close</i></span>
+            <p>
+              Bacon ipsum dolor amet salami culpa flank, ut sed pork meatloaf turkey ham hock beef voluptate velit id. 
+              Pariatur excepteur boudin in nulla fatback bacon.
+            </p>
+            <ul>
+              <li><i class="material-icons">phone</i> {{ rows[$index].phone_number }}</li>
+              <li><i class="material-icons">email</i> {{ rows[$index].email }}</li>
+              <li><i class="material-icons">location_on</i> {{ rows[$index].city }}, {{ rows[$index].state }}</li>
+            </ul>
+            <a class="waves-effect waves-light btn red darken-2" ng-click="confirmPrompt( rows[$index].id )"><i class="material-icons left">warning</i>Delete</a>
+          </div>
+        </div>
+      </div> <!-- end column 1 -->
+      
+      <!-- if the next index of the fetched data is not null, add another item in the 2nd column of this row -->
+      <div ng-switch-when="0" class="col s6" ng-show="rows[$index+1]">
+        <div class="card hoverable">
+          <div class="card-image waves-effect waves-block waves-light">
+            <img class="activator" src="https://placehold.it/350x350?text={{rows[$index+1].company_type}}">
+          </div>
+          <div class="card-content">
+            <span class="card-title activator grey-text text-darken-4">{{ rows[$index+1].name }}<i class="material-icons right">more_vert</i></span>
+            <span class="md-subhead label label-default">{{ rows[$index+1].company_type }}</span>
+          </div>
+          <div class="card-reveal">
+            <span class="card-title grey-text text-darken-4">{{ rows[$index+1].name }}<i class="material-icons right">close</i></span>
+            <p>
+              Bacon ipsum dolor amet salami culpa flank, ut sed pork meatloaf turkey ham hock beef voluptate velit id. 
+              Pariatur excepteur boudin in nulla fatback bacon.
+            </p>
+            <ul>
+              <li><i class="material-icons">phone</i> {{ rows[$index+1].phone_number }}</li>
+              <li><i class="material-icons">email</i> {{ rows[$index+1].email }}</li>
+              <li><i class="material-icons">location_on</i> {{ rows[$index+1].city }}, {{ rows[$index+1].state }}</li>
+            </ul>
+            <a class="waves-effect waves-light red darken-2 btn modal-trigger" ng-click="confirmPrompt( rows[$index+1].id )"><i class="material-icons left">warning</i>Delete</a>
+          </div>
+        </div>
+      </div> <!-- end column 2 -->
+    </div> <!-- end row -->
+
+    <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+        <a class="btn-floating btn-large waves-effect waves-light blue modal-trigger" ng-click="addPrompt()"><i class="material-icons">add</i></a>
+    </div>
+
+<!-- Modal Structure -->
+    <div id="deletemodal" class="modal">
+      <div class="modal-content">
+        <h4>Are you sure!?</h4>
+        <p><b>YOU CAN'T UNDO THIS ACTION!!</b></p>
+        <p>
+          <input type="checkbox" id="surecheck" />
+          <label for="surecheck">You only get one chance!</label>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-red btn" ng-click="deleteItem()">delete</a>
+      </div>
+    </div>
+<!-- Modal Structure -->
+    <div id="addModal" class="modal">
+      <div class="modal-content">
+        <h4>New Factory</h4>
+        <div class="row">
+          <form class="col s12">
+            <div class="row">
+              <div class="input-field col s6">
+                <i class="material-icons prefix">account_circle</i>
+                <input id="icon_prefix" type="text" class="validate" ng-model="nameField">
+                <label for="icon_prefix">Factory Name</label>
+              </div>
+              <div class="input-field col s6">
+                <i class="material-icons prefix">email</i>
+                <input id="icon_telephone" type="text" class="validate" ng-model="emailField">
+                <label for="icon_telephone">Email</label>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="row">
+          <form class="col s12">
+            <div class="row">
+              <div class="input-field col s6">
+                <i class="material-icons prefix">phone</i>
+                <input id="icon_prefix" type="text" class="validate" ng-model="phoneField">
+                <label for="icon_prefix">Phone Number</label>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="row">
+          <form class="col s12">
+            <div class="row">
+              <div class="input-field col s6">
+                <i class="material-icons prefix">location_on</i>
+                <input id="icon_prefix" type="text" class="validate" ng-model="cityField">
+                <label for="icon_prefix">City</label>
+              </div>
+              <div class="input-field col s6">
+                <input id="icon_telephone" type="text" class="validate" ng-model="stateField">
+                <label for="icon_telephone">State</label>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-blue btn" ng-click="addItem()">OK</a>
+      </div>
+    </div>

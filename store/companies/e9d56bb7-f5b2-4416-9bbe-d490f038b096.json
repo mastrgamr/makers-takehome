@@ -1,0 +1,9 @@
+{
+  "id": "e9d56bb7-f5b2-4416-9bbe-d490f038b096",
+  "company_type": "FACTORY",
+  "name": "Test Factory",
+  "email": "test@factories.com",
+  "phone_number": "(555) 555 - 5555",
+  "city": "New York",
+  "state": "New York"
+}
