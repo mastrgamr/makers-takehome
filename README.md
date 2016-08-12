@@ -21,7 +21,8 @@ Running the front end
 ---------------------
 The repo contains a front end html that is optimized for local use and easy interaction with the API.
 It uses AngularJS, Jquery, and MaterialCss, and retrieves endpoints contained in this project hosted on a Heroku server.
-  - Open index.html (in Chrome/Firefox browser)
+  - Open index.html (in Chrome/Firefox browser) *or*
+  - The hosted [Heroku Instance](http://hello-workspace-mastrgamr.c9users.io/)
 
 
 Resources
